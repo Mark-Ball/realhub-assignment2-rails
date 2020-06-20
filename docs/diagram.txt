@@ -1,0 +1,43 @@
+Table orders {
+  id int [pk]
+  agency_id int
+  status_id int
+  campaign_id int
+}
+
+Ref: orders.agency_id < agencies.id
+Ref: orders.status_id < statuses.id
+Ref: orders.campaign_id < campaigns.id
+
+Table agencies {
+  id int [pk]
+  title string
+ }
+
+Table statuses {
+  id int [pk]
+  title string
+}
+ 
+Table campaigns {
+  id int [pk]
+  unit_number int
+  street_number int
+  street_name string
+  suburb_name string
+}
+
+Table active_storage_attachments {
+  id int [pk]
+  name string
+  record_type string
+  record_id int
+  blob_id int
+}
+
+Ref: active_storage_attachments.record_id - orders.id
+Ref: active_storage_attachments.blob_id - active_storage_blobs.id
+
+Table active_storage_blobs {
+  id int [pk]
+}
