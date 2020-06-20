@@ -12,4 +12,9 @@ class OrdersController < ApplicationController
         }
         render json: response
     end
+
+    def status
+        puts params
+        order = Order.find(params[:id]).update({status: 1})
+    end
 end
