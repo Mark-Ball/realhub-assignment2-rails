@@ -9,25 +9,45 @@
 # access api key
 key = Rails.application.credentials.api_key
 
-# seed Agencies table
-# agencies = HTTParty.get('https://app.realhublive.com/api/v2/agencies',
-#     headers: {'x-api-token': key}
-# )
-# i = 1
-# for agency in agencies
-#     Agency.create(title: agency['title'])
-#     puts "agency created #{i}/10"
-#     i += 1
-# end
-# puts 'all agencies seeded'
+# get array of orders
+orders = HTTParty.get('https://app.realhublive.com/api/v2/orders',
+    headers: {'x-api-token': key}
+)
 
-# seed Campaigns table
-# campaigns = HTTParty.get('https://app.realhublive.com/api/v2/campaigns',
-#     headers: {'x-api-token': key}
-# )
-# i = 1
-# for campaign in campaigns
+# construct arrays of all required agencies and campaigns
+agency_ids = []
+campaign_ids = []
+for order in orders
+    agency_ids.push(order['agency_id'])
+    campaign_ids.push(order['campaign_id'])
+end
+agency_ids = agency_ids.uniq
+campaign_ids = campaign_ids.uniq
+
+# seed Agencies table
+i = 1
+for id in agency_ids
+    agency = HTTParty.get("https://app.realhublive.com/api/v2/agencies/search?string=#{id}",
+        headers: {'x-api-token': key}
+    )
+    puts agency[id]
+    # puts agency['id']
+    # puts agency['title']
+    # Agency.create(
+    #     id: agency['id'],
+    #     title: agency['title']
+    # )
+    puts "agency created #{i}/#{agency_ids.length}"
+    i += 1
+end
+
+# # seed Campaigns table
+# for id in campaign_ids
+#     campaign = HTTParty.get("https://app.realhublive.com/api/v2/campaigns/#{id}",
+#         headers: {'x-api-token': key}
+#     )
 #     Campaign.create(
+#         id: campaign['id'],
 #         unit_number: campaign['unit_number'],
 #         street_number: campaign['street_number'],
 #         street_name: campaign['street_name'],
@@ -36,34 +56,34 @@ key = Rails.application.credentials.api_key
 #     puts "campaign created #{i}/20"
 #     i += 1
 # end
-# puts 'all campaigns seeded'
 
-# seed Statuses table
+# # seed Statuses table
 # statuses = HTTParty.get('https://app.realhublive.com/api/v2/statuses',
 #     headers: {'x-api-token': key}
 # )
 # i = 1
 # for status in statuses
-#     Status.create(title: status['title'])
+#     Status.create(
+#         id: status['id'],
+#         title: status['title']
+#     )
 #     puts "status created #{i}/20"
+#     i += 1
 # end
 # puts 'all statuses seeded'
 
-# seed Orders table
-orders = HTTParty.get('https://app.realhublive.com/api/v2/orders',
-    headers: {'x-api-token': key}
-)
-i = 1
-for order in orders
-        createdOrder = Order.create(
-            agency_id: order['agency_id'],
-            status_id: order['status_id'],
-            campaign_id: order['campaign_id'],
-            title: order['title'],
-            quantity: order['total']
-        )
-    puts createdOrder
-    puts "order created #{i}/50"
-    i += 1
-end
-puts 'all orders seeded'
+# # seed Orders table
+# i = 1
+# for order in orders
+#     puts order
+#     Order.create(
+#         id: order['id'],
+#         agency_id: order['agency_id'],
+#         status_id: order['status_id'],
+#         campaign_id: order['campaign_id'],
+#         title: order['title'],
+#         quantity: order['total']
+#     )
+#     puts "order created #{i}/50"
+#     i += 1
+# end
