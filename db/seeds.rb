@@ -10,7 +10,7 @@
 key = Rails.application.credentials.api_key
 
 # get array of orders
-orders = HTTParty.get('https://app.realhublive.com/api/v2/orders',
+orders = HTTParty.get('https://app.realhublive.com/api/v2/orders?include_order_items=true',
     headers: {'x-api-token': key}
 )
 
@@ -77,11 +77,33 @@ for order in orders
     Order.create(
         id: order['id'],
         agency_id: order['agency_id'],
-        status_id: order['status_id'],
-        campaign_id: order['campaign_id'],
-        title: order['title'],
-        quantity: order['total']
+        campaign_id: order['campaign_id']
     )
+
+    for item in order['items']
+        itemResponse = HTTParty.get("https://app.realhublive.com/api/v2/order_items/#{item['id']}?include_order_item_artwork=true",
+            headers: {'x-api-token': key}
+        )
+        
+        artwork_id = itemResponse['artwork'] && itemResponse['artwork']['id']
+
+        if itemResponse['artwork']
+            Artwork.create(
+                id: artwork_id,
+                url: itemResponse['artwork']['links']['download_url']
+            )
+        end
+
+        OrderItem.create(
+            id: itemResponse['id'],
+            title: itemResponse['title'],
+            quantity: itemResponse['quantity'],
+            status_id: itemResponse['status_id'],
+            order_id: order['id'],
+            artwork_id: artwork_id
+        )
+    end
+
     puts "order created #{i}/#{orders.length}"
     i += 1
 end

@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
     belongs_to :agency
     belongs_to :campaign
-    belongs_to :status
+    has_many :order_items
 end
