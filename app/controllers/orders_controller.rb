@@ -1,13 +1,12 @@
 class OrdersController < ApplicationController
     def index
-        response = Order.all.includes(:agency, :status, :campaign).map { |order|
+        response = Order.all.includes(:agency, :campaign, :order_items).map { |order|
             {
                 id: order.id,
                 agency: order.agency,
-                status: order.status,
                 campaign: order.campaign,
-                title: order.title,
-                quantity: order.quantity
+                items: order.order_items
+
             }
         }
         render json: response
