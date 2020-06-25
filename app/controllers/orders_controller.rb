@@ -11,16 +11,4 @@ class OrdersController < ApplicationController
         }
         render json: response
     end
-
-    def status
-        order = Order.find(params[:id])
-        current_status = order.status_id
-        if current_status == 2
-            order.update(status_id: 1)
-        else
-            current_status += 1
-            order.update(status_id: current_status)
-        end
-        render json: order.status.title
-    end
 end
