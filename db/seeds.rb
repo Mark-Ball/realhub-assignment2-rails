@@ -6,24 +6,23 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-puts 'seeds ran'
-# # access api key
-# key = Rails.application.credentials.api_key
+# access api key
+key = Rails.application.credentials.api_key
 
-# # get array of orders
-# orders = HTTParty.get('https://app.realhublive.com/api/v2/orders?include_order_items=true',
-#     headers: {'x-api-token': key}
-# )
+# get array of orders
+orders = HTTParty.get('https://app.realhublive.com/api/v2/orders?include_order_items=true',
+    headers: {'x-api-token': key}
+)
 
-# # construct arrays of all required agencies and campaigns
-# agency_ids = []
-# campaign_ids = []
-# for order in orders
-#     agency_ids.push(order['agency_id'])
-#     campaign_ids.push(order['campaign_id'])
-# end
-# agency_ids = agency_ids.uniq
-# campaign_ids = campaign_ids.uniq
+# construct arrays of all required agencies and campaigns
+agency_ids = []
+campaign_ids = []
+for order in orders
+    agency_ids.push(order['agency_id'])
+    campaign_ids.push(order['campaign_id'])
+end
+agency_ids = agency_ids.uniq
+campaign_ids = campaign_ids.uniq
 
 # # seed Agencies table
 # i = 1
