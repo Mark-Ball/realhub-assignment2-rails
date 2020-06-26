@@ -64,7 +64,3 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "rack-cors", "~> 1.1"
 
 gem "httparty", "~> 0.18.1"
-
-gem "down", "~> 5.1"
-
-gem "aws-sdk-s3", "~> 1.69"
