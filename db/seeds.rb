@@ -14,14 +14,15 @@ orders = HTTParty.get('https://app.realhublive.com/api/v2/orders?include_order_i
     headers: {'x-api-token': key}
 )
 
-# construct arrays of all required agencies and campaigns
-agency_ids = []
-campaign_ids = []
-for order in orders
-    puts order
-    # agency_ids.push(order['agency_id'])
-    # campaign_ids.push(order['campaign_id'])
-end
+puts orders
+
+# # construct arrays of all required agencies and campaigns
+# agency_ids = []
+# campaign_ids = []
+# for order in orders
+#     agency_ids.push(order['agency_id'])
+#     campaign_ids.push(order['campaign_id'])
+# end
 # agency_ids = agency_ids.uniq
 # campaign_ids = campaign_ids.uniq
 
