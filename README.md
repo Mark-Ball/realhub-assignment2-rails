@@ -1,28 +1,20 @@
-# Realhub Rails Test
+# Realhub Assignment 2
 
-- the app has a rails backend which populates a Postgres database via the realhub API
-- the front end is built with React, which sends requests to the rails app (not the realhub API directly)
+Deployed frontend: http://realhub-react-assignment2.s3-website-ap-southeast-2.amazonaws.com
 
-## Entity Relationships
+Frontend repo: https://github.com/Mark-Ball/realhub-assignment2-react
 
-![entity_relationship_diagram](./docs/erd.png)
+Deployed backend: https://realhub-backend.herokuapp.com/
 
-Orders and agencies
-- an order has 1 agency
-- an agency can have many orders
+Backend repo: https://github.com/Mark-Ball/realhub-assignment2-rails
 
-Orders and campaigns
-- an order has 1 campaign
-- a campaign can have many orders
 
-Orders and order items
-- an order can have many order items
-- an order can have many orders
+# Architecture
 
-Order items and statuses
-- an order item can have 1 status
-- a status can have many order items
+The backend runs a Postgres database, which is seeded with the realhub API (https://api-docs.realhub.com.au/#introduction).
 
-Order items and artworks
-- an order item can have 1 artwork
-- an artwork can have many order items
+The backend then acts as an API for the frontend React app.
+
+## Database structure
+
+![entity_relationship_diagram](/docs/erd.png)
